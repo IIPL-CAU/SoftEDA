@@ -22,6 +22,8 @@ def testing(args: argparse.Namespace) -> tuple: # (test_acc_cls, test_f1_cls)
 
     # Define logger and tensorboard writer
     logger = logging.getLogger(__name__)
+    if len(logger.handlers) > 0:
+        logger.handlers.clear()
     logger.setLevel(logging.DEBUG)
     handler = TqdmLoggingHandler()
     handler.setFormatter(logging.Formatter(" %(asctime)s - %(message)s", "%Y-%m-%d %H:%M:%S"))

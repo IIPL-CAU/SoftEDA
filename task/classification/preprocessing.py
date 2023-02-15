@@ -52,18 +52,18 @@ def load_data(dataset_name: str, args: argparse.Namespace, train_valid_split: fl
     }
 
     if name == 'sst2':
-        dataset = load_dataset('sst2')
+        dataset = load_dataset('SetFit/sst2')
 
         train_df = pd.DataFrame(dataset['train'])
         valid_df = pd.DataFrame(dataset['validation'])
         test_df = pd.DataFrame(dataset['test'])
         num_classes = 2
 
-        train_data['text'] = train_df['sentence'].tolist()
+        train_data['text'] = train_df['text'].tolist()
         train_data['label'] = train_df['label'].tolist()
-        valid_data['text'] = valid_df['sentence'].tolist()
+        valid_data['text'] = valid_df['text'].tolist()
         valid_data['label'] = valid_df['label'].tolist()
-        test_data['text'] = test_df['sentence'].tolist()
+        test_data['text'] = test_df['text'].tolist()
         test_data['label'] = test_df['label'].tolist()
     elif name == 'cola':
         dataset = load_dataset('linxinyuan/cola')

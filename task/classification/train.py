@@ -26,6 +26,8 @@ def training(args: argparse.Namespace) -> None:
 
     # Define logger
     logger = logging.getLogger(__name__)
+    if len(logger.handlers) > 0:
+        logger.handlers.clear()
     logger.setLevel(logging.DEBUG)
     handler = TqdmLoggingHandler()
     handler.setFormatter(logging.Formatter(" %(asctime)s - %(message)s", "%Y-%m-%d %H:%M:%S"))
