@@ -16,7 +16,7 @@ from datasets import load_dataset
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from utils.utils import check_path, get_huggingface_model_name
 
-def load_data(dataset_name: str, args: argparse.Namespace, train_valid_split: float=0.2) -> tuple: # (dict, dict, dict, int)
+def load_data(args: argparse.Namespace) -> tuple: # (dict, dict, dict, int)
     """
     Load data from huggingface datasets.
     If dataset is not in huggingface datasets, takes data from local directory.
@@ -33,7 +33,8 @@ def load_data(dataset_name: str, args: argparse.Namespace, train_valid_split: fl
         num_classes (int): Number of classes.
     """
 
-    name = dataset_name.lower()
+    name = args.task_dataset.lower()
+    train_valid_split = args.train_valid_split
 
     train_data = {
         'text': [],
@@ -161,8 +162,10 @@ def load_data(dataset_name: str, args: argparse.Namespace, train_valid_split: fl
         test_data['label'] = test_df['label'].tolist()
     elif name == 'mr':
         # There is no MR dataset in HuggingFace datasets, so we use custom file
-        train_df = pd.read_csv(os.path.join(args.data_path, 'classification', 'MR', 'train.csv'), header=None)
-        test_df = pd.read_csv(os.path.join(args.data_path, 'classification', 'MR', 'test.csv'), header=None)
+        train_path = os.path.join(args.data_path, 'text_classification', 'MR', 'train.csv')
+        test_path = os.path.join(args.data_path, 'text_classification', 'MR', 'test.csv')
+        train_df = pd.read_csv(train_path, header=None)
+        test_df = pd.read_csv(test_path, header=None)
         num_classes = 2
 
         # train-valid split
@@ -197,8 +200,10 @@ def load_data(dataset_name: str, args: argparse.Namespace, train_valid_split: fl
         test_data['label'] = test_df['label'].tolist()
     elif name == 'proscons':
         # There is no MR dataset in HuggingFace datasets, so we use custom file
-        train_df = pd.read_csv(os.path.join(args.data_path, 'classification', 'ProsCons', 'train.csv'), header=None)
-        test_df = pd.read_csv(os.path.join(args.data_path, 'classification', 'ProsCons', 'test.csv'), header=None)
+        train_path = os.path.join(args.data_path, 'text_classification', 'ProsCons', 'train.csv')
+        test_path = os.path.join(args.data_path, 'text_classification', 'ProsCons', 'test.csv')
+        train_df = pd.read_csv(train_path, header=None)
+        test_df = pd.read_csv(test_path, header=None)
         num_classes = 2
 
         # train-valid split
@@ -257,7 +262,7 @@ def preprocessing(args: argparse.Namespace) -> None:
     """
 
     # Load data
-    train_data, valid_data, test_data, num_classes = load_data(args.task_dataset, args.train_valid_split)
+    train_data, valid_data, test_data, num_classes = load_data(args)
 
     # Define tokenizer & config
     model_name = get_huggingface_model_name(args.model_type)

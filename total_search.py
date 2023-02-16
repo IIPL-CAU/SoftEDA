@@ -14,8 +14,8 @@ from task.classification.test import testing
 from utils.arguments import ArgParser
 from utils.utils import check_path, set_random_seed
 
-MODELS = ['bert', 'cnn', 'lstm', 'roberta']
-DATASETS = ['trec', 'sst2', 'subj', 'agnews', 'mr', 'cr', 'proscons', 'imdb', 'cola']
+MODELS = ['cnn', 'lstm', 'bert'] # ['bert', 'cnn', 'lstm', 'roberta']
+DATASETS = ['mr', 'cr', 'proscons', 'imdb', 'cola', 'trec', 'sst2', 'subj', 'agnews']
 AUG_TYPES = ['none', 'hard_eda', 'soft_eda', 'aeda']
 SOFT_EDA_SMOOTHINGS = [0.1, 0.15, 0.2, 0.25, 0.3]
 
