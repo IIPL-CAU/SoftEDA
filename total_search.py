@@ -14,9 +14,9 @@ from task.classification.test import testing
 from utils.arguments import ArgParser
 from utils.utils import check_path, set_random_seed
 
-MODELS = ['cnn', 'lstm', 'bert'] # ['bert', 'cnn', 'lstm', 'roberta']
-DATASETS = ['mr', 'cr', 'proscons', 'imdb', 'cola', 'trec', 'sst2', 'subj', 'agnews']
-AUG_TYPES = ['none', 'hard_eda', 'soft_eda', 'aeda']
+MODELS = ['cnn', 'lstm', 'bert']
+DATASETS = ['sst2', 'cr', 'nr', 'trec', 'subj', 'proscons', 'cola']
+AUG_TYPES = ['none', 'hard_eda', 'aeda', 'soft_eda']
 SOFT_EDA_SMOOTHINGS = [0.1, 0.15, 0.2, 0.25, 0.3]
 
 def compose_result_dict(args: argparse.Namespace, acc: float, f1: float) -> dict:
@@ -32,7 +32,7 @@ def compose_result_dict(args: argparse.Namespace, acc: float, f1: float) -> dict
 
 def total_search(args: argparse.Namespace) -> None:
     result_list = []
-    args.device = 'cuda:3'
+    args.device = 'cuda:0'
     check_path(args.result_path)
     for each_dataset in DATASETS:
         args.task_dataset = each_dataset
@@ -95,10 +95,6 @@ if __name__ == '__main__':
     # Parse arguments
     parser = ArgParser()
     args = parser.get_args()
-
-    # Set random seed
-    if args.seed is not None:
-        set_random_seed(args.seed)
 
     # Run the main function
     total_search(args)
